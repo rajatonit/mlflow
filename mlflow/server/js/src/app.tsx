@@ -16,6 +16,11 @@ import { MlflowRouter as MlflowRouter } from './MlflowRouter';
 import { useMLflowDarkTheme } from './common/hooks/useMLflowDarkTheme';
 
 export function MLFlowRoot() {
+  const search = window.location.search
+  const params = new URLSearchParams(search);
+  const jwt_token = params.get('jwt_token')
+
+  if (jwt_token) sessionStorage.setItem('jwt_token', jwt_token)
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const i18n = useI18nInit();
 

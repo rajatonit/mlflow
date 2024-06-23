@@ -10,6 +10,9 @@ import JsonBigInt from 'json-bigint';
 import yaml from 'js-yaml';
 import _ from 'lodash';
 import { ErrorWrapper } from './ErrorWrapper';
+// import { useSearchParams } from 'react-router-dom';
+
+// let [searchParams, setSearchParams] = useSearchParams();
 
 export const HTTPMethods = {
   GET: 'GET',
@@ -109,14 +112,27 @@ export const fetchEndpointRaw = ({
   timeoutMs = undefined,
 }: any) => {
   const url = getAjaxUrl(relativeUrl);
+  const jwt_token = sessionStorage.getItem('jwt_token');
+  let headers = {};
 
-  // if custom headers has duplicate fields with default Headers,
-  // values in the custom headers options will always override.
-  const headers = {
-    'Content-Type': 'application/json; charset=utf-8',
-    ...getDefaultHeaders(document.cookie),
-    ...headerOptions,
-  };
+  if (jwt_token) {
+    // if custom headers has duplicate fields with default Headers,
+    // values in the custom headers options will always override.
+    headers = {
+      Authorization: `Bearer ${jwt_token}`,
+      'Content-Type': 'application/json; charset=utf-8',
+      ...getDefaultHeaders(document.cookie),
+      ...headerOptions,
+    };
+  } else {
+    // if custom headers has duplicate fields with default Headers,
+    // values in the custom headers options will always override.
+    headers = {
+      'Content-Type': 'application/json; charset=utf-8',
+      ...getDefaultHeaders(document.cookie),
+      ...headerOptions,
+    };
+  }
 
   const defaultOptions = {
     dataType: 'json',
