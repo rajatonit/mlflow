@@ -319,6 +319,5 @@ module.exports = function () {
       ],
     },
   };
-  console.log(config);
   return config;
 };

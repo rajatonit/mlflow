@@ -12,6 +12,8 @@ import { getRouteDefs as getModelRegistryRouteDefs } from './model-registry/rout
 import { getRouteDefs as getCommonRouteDefs } from './common/route-defs';
 import { useInitializeExperimentRunColors } from './experiment-tracking/components/experiment-page/hooks/useExperimentRunColor';
 
+// console.log(process.env.HIDE_HEADER )
+
 /**
  * This is the MLflow default entry/landing route.
  */
@@ -24,12 +26,16 @@ const landingRoute = {
 export const MlflowRouter = ({
   isDarkTheme,
   setIsDarkTheme,
+  hideHeader
 }: {
   isDarkTheme?: boolean;
   setIsDarkTheme?: (isDarkTheme: boolean) => void;
+  hideHeader?: string;
 }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useInitializeExperimentRunColors();
+
+  hideHeader = process.env.HIDE_HEADER;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const routes = useMemo(
@@ -41,7 +47,12 @@ export const MlflowRouter = ({
       <ErrorModal />
       <HashRouter>
         <AppErrorBoundary>
-          <MlflowHeader isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />
+          {
+            hideHeader == 'flase' 
+            ? <MlflowHeader isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />
+            : null
+          }
+            
           <React.Suspense fallback={<LegacySkeleton />}>
             <Routes>
               {routes.map(({ element, pageId, path }) => (
