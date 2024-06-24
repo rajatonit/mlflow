@@ -34,7 +34,7 @@ export const MlflowRouter = ({
 }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useInitializeExperimentRunColors();
-
+  // @ts-expect-error TS(4111): Property 'HIDE_HEADER' comes from an index signature, so ... Remove this comment to see the full error message
   hideHeader = process.env.HIDE_HEADER;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
